@@ -6,11 +6,12 @@ import { ADFIT_UNIT_PC_LEFT, ADFIT_UNIT_PC_RIGHT, ADFIT_UNIT_MOBILE } from "@/li
 
 /**
  * PC 좌·우 세로 사이드 광고(160×600). xl(1280px) 이상에서만 노출.
- * 단위 ID가 없으면 렌더하지 않는다. 랜딩("/")·응시("/quiz")에는 광고를 두지 않는다(기획).
+ * 단위 ID가 없으면 렌더하지 않는다. 응시("/quiz")에는 완주율을 위해 광고를 두지 않는다(기획).
+ * 랜딩 포함 그 외 전 페이지 노출.
  */
 export function AdRails() {
   const pathname = usePathname();
-  if (pathname === "/" || pathname === "/quiz") return null;
+  if (pathname === "/quiz") return null;
   if (!ADFIT_UNIT_PC_LEFT && !ADFIT_UNIT_PC_RIGHT) return null;
   return (
     <>
@@ -28,8 +29,10 @@ export function AdRails() {
   );
 }
 
-/** 모바일 하단 가로 배너(320×100). xl 미만에서만, 본문 하단 흐름에 배치. */
+/** 모바일 하단 가로 배너(320×100). xl 미만에서만. 응시("/quiz")에는 노출하지 않는다. */
 export function AdBottomMobile({ className = "" }: { className?: string }) {
+  const pathname = usePathname();
+  if (pathname === "/quiz") return null;
   if (!ADFIT_UNIT_MOBILE) return null;
   return (
     <div className={`xl:hidden ${className}`}>

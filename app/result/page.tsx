@@ -10,7 +10,6 @@ import { WrongAnswers, type ReviewItem } from "@/components/result/WrongAnswers"
 import { ResultActions } from "@/components/result/ResultActions";
 import { ResultTracker } from "@/components/result/ResultTracker";
 import { CrossPromo } from "@/components/CrossPromo";
-import { AdBottomMobile } from "@/components/AdRails";
 
 export async function generateMetadata({
   searchParams,
@@ -105,9 +104,6 @@ export default async function ResultPage({
       <ResultActions />
 
       <WrongAnswers items={review} />
-
-      {/* 모바일 하단 광고(320×100) — 단위 ID 있을 때만. 결과 페이지 슬롯 ≤2 */}
-      <AdBottomMobile className="mt-8 flex justify-center" />
 
       {/* 크로스 프로모션 */}
       <div className="mt-8">
