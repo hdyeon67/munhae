@@ -34,10 +34,14 @@ export function QuizRunner() {
   const [answers, setAnswers] = useState<number[]>(() => Array(paper.items.length).fill(-1));
   const startedAt = useRef<number>(0);
 
+  // 시드·모드가 바뀌면(새 시험지) 진행상태를 처음부터 리셋한다.
+  // quiz→quiz 직접 이동 시에도 이전 idx/answers 가 남지 않도록 함. (윤진 QA)
   useEffect(() => {
+    setIdx(0);
+    setAnswers(Array(paper.items.length).fill(-1));
     startedAt.current = Date.now();
     track("quiz_start", { mode: setup.mode });
-  }, [setup.mode]);
+  }, [setup.seed, setup.mode, paper.items.length]);
 
   const item = paper.items[idx];
   const total = paper.items.length;
