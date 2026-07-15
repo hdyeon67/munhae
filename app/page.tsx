@@ -1,6 +1,9 @@
 import { StartCard } from "@/components/landing/StartCard";
 import { todayKST, formatKoreanDate } from "@/lib/date";
 
+// 날짜(오늘의 시험지)를 요청 시 KST로 렌더 — 정적 프리렌더 시 빌드 날짜가 고정되는 문제 방지.
+export const dynamic = "force-dynamic";
+
 export default function LandingPage() {
   const dateLabel = formatKoreanDate(todayKST());
 

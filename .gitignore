@@ -1,10 +1,12 @@
 # dependencies
 /node_modules
 
-# next / opennext (Phase 3+)
+# next / opennext / wrangler
 /.next
 /.open-next
 /out
+/.wrangler
+.dev.vars
 
 # build & cache
 tsconfig.tsbuildinfo
