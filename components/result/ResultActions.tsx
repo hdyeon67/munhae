@@ -33,8 +33,8 @@ export function ResultActions() {
 
   function inviteFriend() {
     track("cta_friend_click");
-    const origin = window.location.origin;
-    copy(`${origin}/quiz`, "오늘의 시험지 링크를 복사했어요!");
+    // 친구는 랜딩(루트)부터 시작 — 소개·날짜 확인 + 닉네임 입력 후 응시
+    copy(window.location.origin, "친구에게 보낼 링크를 복사했어요!");
   }
 
   function playAgain() {
