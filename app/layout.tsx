@@ -21,6 +21,8 @@ export const metadata: Metadata = {
     siteName: SITE.name,
     title: "문해력 모의고사 · 오늘의 시험지",
     description: "매일 10문항, 내 문해력은 몇 등급? 친구랑 같은 시험지로 비교해요.",
+    // 홈/기본 공유용 OG(app/opengraph-image.tsx). 결과 페이지는 자체 og:image 로 덮어씀.
+    images: ["/opengraph-image"],
   },
 };
 
