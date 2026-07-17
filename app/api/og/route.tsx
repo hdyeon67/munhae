@@ -37,6 +37,7 @@ const SIZES: Record<string, { w: number; h: number }> = {
   og: { w: 600, h: 315 },
   feed: { w: 640, h: 640 },
   story: { w: 640, h: 1138 },
+  home: { w: 1200, h: 630 }, // 홈/기본 공유용 OG(성적통지표 헤더)
 };
 
 let cachedFont: ArrayBuffer | null = null;
@@ -93,9 +94,14 @@ async function render(req: Request): Promise<Response> {
 
   const payload = d ? decodeResult(d) : null;
 
-  // 잘못된 결과: 브랜드 카드로 폴백
+  // 결과 없음(홈/기본 공유 또는 잘못된 결과): 성적통지표 브랜드 카드
   if (!payload) {
-    return new ImageResponse(<BrandCard />, { width: w, height: h, fonts, headers: OG_HEADERS });
+    return new ImageResponse(<BrandCard scale={w / 1200} />, {
+      width: w,
+      height: h,
+      fonts,
+      headers: OG_HEADERS,
+    });
   }
 
   const paper = generatePaper(ITEMS, payload.seed, payload.mode);
@@ -113,25 +119,91 @@ async function render(req: Request): Promise<Response> {
   );
 }
 
-function BrandCard() {
+// 홈/기본 공유용 성적통지표 헤더 카드 (1200x630 기준, scale 로 크기 대응)
+function BrandCard({ scale }: { scale: number }) {
+  const px = (n: number) => Math.round(n * scale);
   return (
     <div
       style={{
         width: "100%",
         height: "100%",
         display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        fontFamily: "Pretendard",
-        fontWeight: 700,
-        color: INK,
         background: PAPER,
+        padding: px(48),
+        fontFamily: "Pretendard",
       }}
     >
-      <div style={{ display: "flex", fontSize: 46 }}>문해력 모의고사</div>
-      <div style={{ display: "flex", marginTop: 12, fontSize: 22, color: "#8a8178" }}>
-        오늘의 시험지 · 내 문해력은 몇 등급?
+      <div
+        style={{
+          flex: 1,
+          display: "flex",
+          border: `${px(3)}px solid ${INK}`,
+          padding: `${px(56)}px ${px(64)}px`,
+          position: "relative",
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            flex: 1,
+            justifyContent: "center",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              fontSize: px(30),
+              color: "#5a534c",
+              letterSpacing: px(8),
+              paddingBottom: px(6),
+              borderBottom: `${px(2)}px solid ${LINE}`,
+            }}
+          >
+            오늘의 문해력 시험지
+          </div>
+          <div
+            style={{
+              display: "flex",
+              fontSize: px(108),
+              fontWeight: 700,
+              color: INK,
+              marginTop: px(26),
+            }}
+          >
+            문해력 모의고사
+          </div>
+          <div
+            style={{
+              display: "flex",
+              fontSize: px(36),
+              color: "#5a534c",
+              marginTop: px(24),
+            }}
+          >
+            매일 열 문항 · 이 분 컷 · 수능 성적표 패러디
+          </div>
+        </div>
+        <div
+          style={{
+            display: "flex",
+            position: "absolute",
+            right: px(56),
+            bottom: px(52),
+            width: px(132),
+            height: px(132),
+            alignItems: "center",
+            justifyContent: "center",
+            border: `${px(6)}px solid ${SEAL}`,
+            borderRadius: px(24),
+            color: SEAL,
+            fontSize: px(60),
+            fontWeight: 700,
+            transform: "rotate(-8deg)",
+          }}
+        >
+          채점
+        </div>
       </div>
     </div>
   );
