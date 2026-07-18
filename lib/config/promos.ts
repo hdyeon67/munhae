@@ -14,6 +14,15 @@ export interface PromoApp {
 
 export const PROMOS: PromoApp[] = [
   {
+    // 같은 퀴즈 사용자 순환 — 문해력 다음 "언어 나이"도 재보게 (크로스프로모 스펙 v2: munhae 평시 → 신조어)
+    id: "shinjo",
+    emoji: "🗣️",
+    title: "내 언어 나이는?",
+    desc: "신조어로 재보는 언어 나이 테스트",
+    href: "https://shinjo.fineboll.com",
+    color: "#a24bff",
+  },
+  {
     id: "saju",
     emoji: "🔮",
     title: "내 사주가 궁금하다면?",
